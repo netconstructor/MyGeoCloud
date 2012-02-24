@@ -6,7 +6,7 @@ class table extends postgis {
 	var $geomField;
 	var $geomType;
 	var $exits;
-	var $id;
+	//var $id;
 	function __construct($table)
 	{
 		logfile::write($table."\n");
@@ -35,13 +35,13 @@ class table extends postgis {
 			$this->geomField = $this -> getGeometryColumns($this->table, "f_geometry_column");
 			$this->geomType = $this -> getGeometryColumns($this->table, "type");
 			$this->primeryKey = $this->getPrimeryKey($this->table);
-			$this->id = $this->getGeometryColumns($this->table, "id");
+			//$this->id = $this->getGeometryColumns($this->table, "id");
 			$this->setType();
 			$this->exits = true;
 		}
 	}
 	private function setType()
-	{
+	{	
 		$this->metaData = array_map(array($this,"getType"),$this->metaData);
 	}
 	private function getType($field)
@@ -64,6 +64,14 @@ class table extends postgis {
 			$field['typeObj'] = array("type"=>"decimal","precision"=>3,"scale"=>10);
 			$field['type'] = "number"; // SKAL ændres
 		}
+		elseif (preg_match("/bool/",$field['type'])){
+			$field['typeObj'] = array("type"=>"boolean");
+			$field['type'] = "boolean";
+		}
+		elseif (preg_match("/geometry/",$field['type'])){
+			$field['typeObj'] = array("type"=>"geometry");
+			$field['type'] = "geometry";
+		}
 		else {
 			$field['typeObj'] = array("type"=>"string");
 			$field['type'] = "string";
@@ -74,7 +82,7 @@ class table extends postgis {
 		$array[$key] = $value;
 		return $array;
 	}
-	function getRecords($createKeyFrom=NULL,$fields="*",$whereClause) // All tables
+	function getRecords($createKeyFrom=NULL,$fields="*",$whereClause=NULL) // All tables
 	{
 		$response['success'] = true;
 		$response['message'] = "Layers loaded";
@@ -152,6 +160,9 @@ class table extends postgis {
 		$data = $this->makeArray($data);
 		foreach ($data as $row) {
 			foreach($row as $key=>$value){
+				if ($value===false) {
+					$value = 0;
+				}
 				$value = $this->db->quote($value);
 				if ($key!=$keyName) {
 					$pairArr[] = "{$key}={$value}";
@@ -168,7 +179,7 @@ class table extends postgis {
 			$sql.= " WHERE {$where}";
 			
 			$result = $this -> execQuery($sql,"PDO","transaction");
-			// If row does not exits, insert instead. Move to an insert methos
+			// If row does not exits, insert instead. Move to an insert method
 			if ((!$result) && (!$this->PDOerror)){
 				$sql = "INSERT INTO {$this->table} ({$keyName},".implode(",",$keyArr).") VALUES({$keyValue},".implode(",",$valueArr).")";
 				$result = $this -> execQuery($sql,"PDO","transaction");
@@ -233,13 +244,14 @@ class table extends postgis {
 		$arr = array();
 		$fieldconfArr = (array)json_decode($this->getGeometryColumns($this->table,"fieldconf"));
 		foreach($this->metaData as $key=>$value){
-			if ($key!=$this->geomField && $key!=$this->primeryKey['attname']) {
+			if ($key!=$this->geomField /*&& $key!=$this->primeryKey['attname']*/) {
 				$arr = $this -> array_push_assoc($arr,"id",$key);
 				$arr = $this -> array_push_assoc($arr,"column",$key);
 				$arr = $this -> array_push_assoc($arr,"sort_id",(int)$fieldconfArr[$key]->sort_id);
 				$arr = $this -> array_push_assoc($arr,"querable",$fieldconfArr[$key]->querable);
 				$arr = $this -> array_push_assoc($arr,"alias",$fieldconfArr[$key]->alias);
 				$arr = $this -> array_push_assoc($arr,"link",$fieldconfArr[$key]->link);
+				$arr = $this -> array_push_assoc($arr,"linkprefix",$fieldconfArr[$key]->linkprefix);
 				if ($value['type']['type']=="decimal") {
 					$arr = $this -> array_push_assoc($arr,"type","{$value['typeObj']['type']} ({$value['typeObj']['precision']} {$value['typeObj']['scale']})");
 				}
@@ -350,7 +362,7 @@ class table extends postgis {
 		$this->PDOerror = NULL;
 		$table = $this->toAscii($table,array(),"_");
 		$sql = "BEGIN;";
-		$sql.= "CREATE TABLE {$this->postgisschema}.{$table} (gid serial PRIMARY KEY,id int);";
+		$sql.= "CREATE TABLE {$this->postgisschema}.{$table} (gid serial PRIMARY KEY,id int) WITH OIDS;";
 		$sql.= "SELECT AddGeometryColumn('".$this->postgisschema."','{$table}','the_geom',{$srid},'{$type}',2);";// Must use schema prefix cos search path include public
 		$sql.= "COMMIT;";
 		$this -> execQuery($sql,"PDO","transaction");

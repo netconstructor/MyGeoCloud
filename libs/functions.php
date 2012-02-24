@@ -280,7 +280,7 @@ class logfile {
 
 	function write($the_string) {
 	/*
-		if ( $fh = fopen("/var/www/mygeocloud/log.txt", "a+" ) ) {
+		if ( $fh = fopen("/var/www/log.txt", "a+" ) ) {
 			fputs( $fh, $the_string, strlen($the_string) );
 			fclose( $fh );
 			return true;
