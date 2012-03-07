@@ -52,8 +52,8 @@ function makeMapFile($user,$extentLayer=NULL) {
 		  TRANSPARENT ON
 		  FORMATOPTION "GAMMA=0.75"
 	  END
-	  CONFIG "MS_ERRORFILE" "/srv/www/sites/betamygeocloud/wms/mapfiles/ms_error.txt"
-	  DEBUG 5
+	  #CONFIG "MS_ERRORFILE" "/srv/www/sites/betamygeocloud/wms/mapfiles/ms_error.txt"
+	  #DEBUG 5
 	  WEB
 		IMAGEPATH "<?php echo $basePath."/tmp";?>"
   		IMAGEURL "<?php echo $hostName;?>/tmp"
@@ -256,7 +256,11 @@ END
 	  LAYER
 		NAME "<?php echo $row['f_table_schema'];?>.<?php echo $row['f_table_name'];?>"
 		STATUS off
-		DATA "<?php echo $row['f_geometry_column'];?> from <?php echo $row['f_table_schema'];?>.<?php echo $row['f_table_name'];?>"
+		<?php if ($row['data']) {?>
+			DATA "<?php echo $row['data'];?>"
+		<?php } else {?> 
+			DATA "<?php echo $row['f_geometry_column'];?> from <?php echo $row['f_table_schema'];?>.<?php echo $row['f_table_name'];?>"
+		<?php } ?>
 		<?php
 		switch ($row['type']) {
 					case "POINT":

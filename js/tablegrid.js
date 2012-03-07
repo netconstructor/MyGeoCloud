@@ -17,7 +17,7 @@ $(window).load(function () {
 	var editable = true;
     
 	$.ajax( {
-			url : '/controller/sql/' + screenName + '/',
+			url : '/controller/sql/' + screenName + '?q=' + getvars['q'] ,
 			async : false,
 			dataType : 'json',
 			type : 'GET',

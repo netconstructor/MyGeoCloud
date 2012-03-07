@@ -17,10 +17,10 @@ $postgisdb = $db;
 ?>
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>World Trail Map</title>
-    <meta name="description" content="">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>World Trail Map -- Free trails world wide</title>
+    <meta name="keywords" content="route, track, waypoint, gps, gpx, trail, road, map, gis, hike, hiking, mountain hiking, alpine hiking, walk, walking, training, sports, measure, distance, maps, earth, gml, kml, georss" />
+    <meta name="description" content="Web site with free hiking trails world wide">
     <meta name="author" content="">
     <meta property="fb:app_id" content="102083723254088">
 	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
@@ -39,17 +39,11 @@ $postgisdb = $db;
       }
     </style>
     <link href="http://test.mygeocloud.com/js/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="http://twitter.github.com/bootstrap/examples/images/favicon.ico">
-    <link rel="apple-touch-icon" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-114x114.png">
     <script type="text/javascript">
 
 	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-28178450-1']);
-	  _gaq.push(['_setDomainName', 'mygeocloud.com']);
+	  _gaq.push(['_setAccount', 'UA-29155525-1']);
+	  _gaq.push(['_setDomainName', 'worldtrailmap.com']);
 	  _gaq.push(['_trackPageview']);
 	
 	  (function() {
@@ -61,3 +55,11 @@ $postgisdb = $db;
 	</script>
   </head>
  <body>
+ <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

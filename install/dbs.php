@@ -12,18 +12,18 @@ try {
 	die();
 }
 
-
+$i=1;
 echo "<table border='1'>";
 echo "<tr><td></td><td>PostGIS</td><td>MyGeoCloud</td></tr>";
 foreach($arr['data'] as $db) {
 
 	if ($db!="template1" AND $db!="template0" AND $db!="postgres" AND $db!="postgis_template") {
-		echo "<tr><td>{$db}</td>";
+		echo "<tr><td>{$i} {$db}</td>";
 		$postgisdb = $db;
 		$dbc = new dbcheck();
 
 		// Check if postgis is installed
-		$checkPostGIS = $dbc->isPostGISInstalled();
+		//$checkPostGIS = $dbc->isPostGISInstalled();
 		if ($checkPostGIS['success']) {
 			echo "<td style='color:green'>V</td>";
 		}
@@ -32,7 +32,7 @@ foreach($arr['data'] as $db) {
 		}
 
 		// Check if schema "settings" is loaded
-		$checkMy = $dbc->isSchemaInstalled();
+		//$checkMy = $dbc->isSchemaInstalled();
 		if ($checkMy['success']) {
 			echo "<td style='color:green'>V";
 			$checkView = $dbc->isViewInstalled();
@@ -53,7 +53,7 @@ foreach($arr['data'] as $db) {
 
 
 	}
-
+$i++;
 }
 echo "<table>";
 // We check if "tmp" is writeable

@@ -10,44 +10,31 @@ include("html_header.php");
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">World Trail Map</a>
+          <a class="brand" href="/">World Trail Map</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="about.html">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
     <div class="container">
-
-      <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit" style="height:500px;padding:0px">
-        <iframe frameborder="no" width="100%" height="100%" src="http://test.mygeocloud.com/apps/viewer/openlayers/<?php echo $postgisdb;?>?layers=public.ways"></iframe>
+        <iframe frameborder="no" width="100%" height="100%" src="http://test.mygeocloud.com/apps/viewer/openlayers/<?php echo $postgisdb;?>?layers=public.ways&usepopup=false"></iframe>
       </div>
-
-      <!-- Example row of columns -->
       <div class="row">
         <div class="span6">
-          <h2>Heading</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce 
-dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details »</a></p>
+          <h2>Over 150.000 free trails</h2>
+           <p>World Trail Map gives you access to more than 150.000 hiking trails world wide. From the easy hikes to the most difficult alpine adventures.</p>
         </div>
         <div class="span6">
-          <h2>Heading</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce 
-dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details »</a></p>
+          <h2>No sign up</h2>
+           <p>You don't have to sign up to use World Trail Map. Actual you can't sign up. Just start using the map. Send us a mail if you've cool ideas or if you just like the site.</p>
        </div>
       </div>
+      <br/><br/>
 <?php
 include("html_footer.php");
       

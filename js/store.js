@@ -121,7 +121,7 @@ $(window).load(function () {
    
     // create a grid to display records from the store
     var grid = new Ext.grid.EditorGridPanel({
-        title: "Layers in your geocloud",
+        //title: "Layers in your geocloud",
         store: store,
         autoExpandColumn: "desc",
         height: 400,

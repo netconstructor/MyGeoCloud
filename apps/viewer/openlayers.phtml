@@ -68,7 +68,7 @@ body {
 		var popupOn = <?php  if ($_REQUEST['popup']) echo $_REQUEST['popup']; else echo "1";?>;
 		//var popupOn = false;
 		var base = [];
-		var doNotUsePopUp = '<?= $_REQUEST['usepopup'] ?>';
+		var usepopup = '<?= $_REQUEST['usepopup'] ?>';
 		var layerStr = '<?= $_REQUEST['layers'] ?>';
 		var graphicLayer;
 		var renderGeometryArray;
@@ -148,7 +148,7 @@ if ($_REQUEST['sld'])
 		$sldArr['NamedLayer']['Name'] = $_REQUEST['overRideNamedLayerWith'];
 	}
 	$filter = parseFilter($filterArr,$sldArr['NamedLayer']['Name']);
-	$query = "SELECT xmin(extent(transform(the_geom,{$srs}))) as minx, ymin(extent(transform(the_geom,{$srs}))) as miny, xmax(extent(transform(the_geom,{$srs}))) as maxx, ymax(extent(transform(the_geom,{$srs}))) as maxy FROM {$sldArr['NamedLayer']['Name']} WHERE ".$filter;
+	$query = "SELECT xmin(extent(transform(linestring,{$srs}))) as minx, ymin(extent(transform(linestring,{$srs}))) as miny, xmax(extent(transform(linestring,{$srs}))) as maxx, ymax(extent(transform(linestring,{$srs}))) as maxy FROM {$sldArr['NamedLayer']['Name']} WHERE ".$filter;
 	echo "<!-- TEST {$query} -->\n";
 	$result = $postgisObject -> execQuery($query);
 	$row = $postgisObject->fetchRow($result);
@@ -524,7 +524,7 @@ print_r($postgisObject->PDOerror);
 				$layerConnectionString.="tilecache/"; 
 			}
 	?>
-	base.push(new OpenLayers.Layer.WMS("<?php echo $arr['f_table_title'];?>","<?php echo $layerConnectionString;?>",{layers:"<?php echo $arr['f_table_schema'];?>.<?php echo $arr['f_table_name'];?>",transparent:true},{singleTile:false,isBaseLayer:true,wrapDateLine:false,transitionEffect:'resize'}));
+	base.push(new OpenLayers.Layer.WMS("<?php echo $arr['f_table_title'];?>","<?php echo $layerConnectionString;?>",{layers:"<?php echo $arr['f_table_schema'];?>.<?php echo $arr['f_table_name'];?>",transparent:true},{buffer:0,singleTile:false,isBaseLayer:true,wrapDateLine:false,transitionEffect:'resize'}));
 	<?php }}}?>
 	
 
@@ -577,7 +577,7 @@ print_r($postgisObject->PDOerror);
 
 	
 	
-	vectors = new OpenLayers.Layer.Vector("Markering");
+	vectors = new OpenLayers.Layer.Vector("Mark");
  
             map.addLayers([vectors]);
 			
@@ -607,7 +607,7 @@ print_r($postgisObject->PDOerror);
     ctrl = new OpenLayers.Control.NavigationHistory();
     map.addControl(ctrl);
    action = new GeoExt.Action({
-        text: "Signatur",
+        text: "Legend",
 	 handler:function(objRef){
 		if(!legendWin){
 		    legendWin = new Ext.Window({
@@ -705,7 +705,7 @@ print_r($postgisObject->PDOerror);
     });
 	
 
-    if ((inFrames())) toolbarItems.push(action);
+    if ((inFrames()) && usepopup!="false") toolbarItems.push(action);
 
     toolbarItems.push("->");
     action = new GeoExt.Action({
@@ -793,6 +793,8 @@ for (var i=0; i<conf.length; i++) {
 	}
 }
 addLegend(layerStr);
+$("#embedEl").show();
+$("#searchContent").show();
 });
 function transformPoint(lat,lon,s,d) {
     var source = new Proj4js.Proj(s);    //source coordinates will be in Longitude/Latitude
@@ -841,21 +843,21 @@ function addEmbedStr() {
 </form>
 <div id="mapel"></div>
 <div id="legendContent"></div>
-<div style="padding: 5px" id="searchContent"><input style="width: 270px"
+<div style="display:none;padding: 5px" id="searchContent"><input style="width: 270px"
 	type='text' id='gAddress' name='gAddress' value='' />
 </div>
-<div id="embedEl">
-<a href="javascript:void(0);" onclick="javascript:addEmbedStr();">Se kode</a><br />
-<form id="theForm" name="theForm">
-<div>Interaktivt- og statisk kort</div>
-<input type="text" size="30" id="embed_area1" name="embed_area1" onclick="javascript:document.theForm.embed_area1.focus();document.theForm.embed_area1.select();" readonly='readonly' />
-<div>Interaktivt kort</div>
-<input type="text" size="30" id="embed_area2" name="embed_area2" onclick="javascript:document.theForm.embed_area2.focus();document.theForm.embed_area2.select();" readonly='readonly' />
-<div>Statisk kort</div>
-<input type="text" size="30" id="embed_area3" name="embed_area3" onclick="javascript:document.theForm.embed_area3.focus();document.theForm.embed_area3.select();" readonly='readonly' />
-<div>Url til kort</div>
-<input type="text" size="30" id="embed_area4" name="embed_area4" onclick="javascript:document.theForm.embed_area4.focus();document.theForm.embed_area4.select();" readonly='readonly' />
-</form>
+<div id="embedEl" style="display:none">
+	<a href="javascript:void(0);" onclick="javascript:addEmbedStr();">Se kode</a><br/>
+	<form id="theForm" name="theForm">
+	<div>Interaktivt- og statisk kort</div>
+	<input type="text" size="30" id="embed_area1" name="embed_area1" onclick="javascript:document.theForm.embed_area1.focus();document.theForm.embed_area1.select();" readonly='readonly' />
+	<div>Interaktivt kort</div>
+	<input type="text" size="30" id="embed_area2" name="embed_area2" onclick="javascript:document.theForm.embed_area2.focus();document.theForm.embed_area2.select();" readonly='readonly' />
+	<div>Statisk kort</div>
+	<input type="text" size="30" id="embed_area3" name="embed_area3" onclick="javascript:document.theForm.embed_area3.focus();document.theForm.embed_area3.select();" readonly='readonly' />
+	<div>Url til kort</div>
+	<input type="text" size="30" id="embed_area4" name="embed_area4" onclick="javascript:document.theForm.embed_area4.focus();document.theForm.embed_area4.select();" readonly='readonly' />
+	</form>
 </div>
 </body>
 <script type="text/javascript" src="/js/openlayers/OpenLayers.js"></script>

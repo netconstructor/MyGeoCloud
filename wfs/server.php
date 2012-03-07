@@ -512,7 +512,7 @@ function doSelect($table, $sql, $sql2, $from) {
 	{
 		print $defaultBoundedBox;
 	}
-	$result = $postgisObject -> execQuery($sql.$from." LIMIT 1000000");
+	$result = $postgisObject -> execQuery($sql.$from." LIMIT 1000");
 	if ($postgisObject->numRows($result)<1)
 	{
 		$sql = str_replace(",public.asText(public.transform(the_geom,25832)) as the_geom","",$sql);

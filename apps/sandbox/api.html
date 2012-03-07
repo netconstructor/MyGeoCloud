@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>OpenLayers Basic Single WMS Example</title>
+<script type="text/javascript" src="http://test.mygeocloud.com/js/openlayers/OpenLayers.js"></script>
+<script type="text/javascript" src="/js/ext/adapter/ext/ext-base.js">
+	
+</script>
+<script type="text/javascript" src="/js/ext/ext-all.js">
+	
+</script>
+<script type="text/javascript" src="/js/jquery/1.6.4/jquery.min.js">
+	
+</script>
+<script type="text/javascript" src="/js/GeoExt/lib/GeoExt.js">
+		</script>
+
+
+<script type="text/javascript" src="/apps/sandbox/mygeocloud_api.js"></script>
+
+<script type="text/javascript" src="/apps/sandbox/test.js"></script>
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $gMapsApiKey;?>"
+		type="text/javascript">
+		</script>
+<link rel="stylesheet" type="text/css" href="/js/ext/resources/css/ext-all.css"/>
+<script type="text/javascript">
+function init() {
+	cloud = new mygeocloud.map("trails");
+	cloud.addBaseLayer();
+	cloud.map.render("map");
+	cloud.map.zoomToMaxExtent();
+
+	store = new mygeocloud.geoJsonStore("public","ways")
+	cloud.addGeoJsonStore(store);
+	cloud.map.zoomToExtent(store.getDataExtent());
+	cloud.addTileLayer("public",["ways","test"]);
+	
+	
+	
+	//var panel = new mygeocloud.panel("map",cloud);
+}
+</script>
+</head>
+<body onload="init()">
+<div id="map" style="width: 500px;height: 500px"></div>
+</body>
+
+</html>
