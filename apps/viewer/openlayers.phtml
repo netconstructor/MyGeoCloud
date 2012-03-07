@@ -148,7 +148,7 @@ if ($_REQUEST['sld'])
 		$sldArr['NamedLayer']['Name'] = $_REQUEST['overRideNamedLayerWith'];
 	}
 	$filter = parseFilter($filterArr,$sldArr['NamedLayer']['Name']);
-	$query = "SELECT xmin(extent(transform(linestring,{$srs}))) as minx, ymin(extent(transform(linestring,{$srs}))) as miny, xmax(extent(transform(linestring,{$srs}))) as maxx, ymax(extent(transform(linestring,{$srs}))) as maxy FROM {$sldArr['NamedLayer']['Name']} WHERE ".$filter;
+	$query = "SELECT xmin(extent(transform(the_geom,{$srs}))) as minx, ymin(extent(transform(the_geom,{$srs}))) as miny, xmax(extent(transform(the_geom,{$srs}))) as maxx, ymax(extent(transform(the_geom,{$srs}))) as maxy FROM {$sldArr['NamedLayer']['Name']} WHERE ".$filter;
 	echo "<!-- TEST {$query} -->\n";
 	$result = $postgisObject -> execQuery($query);
 	$row = $postgisObject->fetchRow($result);

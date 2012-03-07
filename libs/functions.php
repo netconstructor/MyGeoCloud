@@ -39,7 +39,7 @@ class postgis
 		return($row);
 		*/
 		if ($this->PDOerror){
-			//throw new Exception($this->PDOerror[0]);
+			throw new Exception($this->PDOerror[0]);
 		}
 		switch ($result_type) {
 			case "assoc":
@@ -267,6 +267,30 @@ class postgis
 		return array("schema"=>$_schema,"table"=>$_table);
 		
 	}
+	private function array_push_assoc($array, $key, $value){
+		$array[$key] = $value;
+		return $array;
+	}
+function sql($q) {
+               $result = $this->execQuery($q);
+               while ($row = $this->fetchRow($result,"assoc")) {
+                       $arr = array();
+                       foreach ($row as $key => $value) {
+                               $arr = $this -> array_push_assoc($arr,$key,$value);
+                       }
+                       $response['data'][] = $arr;
+               }
+               foreach($response['data'][0] as $key=>$value){
+                       $fieldsForStore[]  = array("name"=>$key,"type"=>$value['type']);
+                       $columnsForGrid[]  =
+array("header"=>$key,"dataIndex"=>$key,"type"=>"string","typeObj"=>
+array("type"=>"string"));
+               }
+               $response["forStore"] = $fieldsForStore;
+               $response["forGrid"] = $columnsForGrid;
+               return $response;
+       }
+	
 	
 }
 class logfile {

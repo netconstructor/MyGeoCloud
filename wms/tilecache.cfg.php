@@ -28,8 +28,12 @@ function makeTileCacheFile($user,$extentLayer=NULL) {
 	echo "[cache]\n";
 	echo "type=Disk\n";
 	echo "base={$basePath}/tmp/{$user}\n\n";
+	
+	//echo "type=AWSS3\n";
+    //echo "access_key=AKIAIZUYE3I462NPVANQ\n";
+    //echo "secret_access_key=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\n";
 
-	$sql="SELECT * FROM settings.geometry_columns_view WHERE f_table_schema='{$postgisschema}' OR f_table_schema='public'";
+	$sql="SELECT * FROM settings.geometry_columns_view";
 	//echo $sql;
 	$result = $postgisObject->execQuery($sql);
 	if($postgisObject->PDOerror){
