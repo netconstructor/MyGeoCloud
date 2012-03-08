@@ -1,9 +1,9 @@
 <?php
 $sqls[] = "DROP VIEW settings.geometry_columns_view CASCADE";
 
-//$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN sort_id int";
-//$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN _key_ varchar(255)";
-//$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN tilecache bool";
+$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN sort_id int";
+$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN _key_ varchar(255)";
+$sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN tilecache bool";
 $sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN data varchar(255)";
 $sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN not_querable bool";
 $sqls[] = "ALTER TABLE settings.geometry_columns_join ADD COLUMN single_tile bool";
